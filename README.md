@@ -131,10 +131,12 @@ Transformasi data dan pengujian kualitas (*data quality checks*) berhasil disele
 
 Detail penjelasan untuk setiap tahapan *pipeline* tersedia di dalam direktori `docs/`:
 
+* `00_CASE_PACTRAVEL[pacmann].md`
 * `01_requirements_gathering.md`
 * `02_dimensional_model.md`
 * `03_pipeline_design.md`
 * `04_show_results_of_the_pipeline.md`
+
 
 ## Notes
 
@@ -143,3 +145,20 @@ Detail penjelasan untuk setiap tahapan *pipeline* tersedia di dalam direktori `d
 * **Skema Final DWH:** `final` (lapisan *data mart* analitik).
 * **Historisasi Data:** Perubahan dimensi ditangani menggunakan *dbt snapshots* (implementasi SCD Type 2).
 * **Optimalisasi Kueri:** Analisis tren harian diselesaikan menggunakan *snapshot fact table* pada `fct_daily_booking_summary` untuk menghindari perhitungan ulang (*recalculation*) agregasi.
+
+---
+
+
+
+<div align="center">
+
+### Mentoring - Exercise 3 - Data Storage
+Dokumen ini dibuat sebagai bagian dari pembelajaran di <strong>Pacmann Academy Bootcamp</strong>.
+
+<a href="https://pacmann.io">
+  <img src="https://img.shields.io/badge/BOOTCAMP%20%7C%20PACMANN%20ACADEMY-0D3B66?style=for-the-badge&logoColor=white" alt="Pacmann Academy">
+</a>
+
+<a href="https://pacmann.io">pacmann.io</a>
+
+</div>
