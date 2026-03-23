@@ -1,0 +1,76 @@
+services:
+  source_db:
+    image: postgres:16
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      POSTGRES_DB: ${SRC_POSTGRES_DB}
+      POSTGRES_USER: ${SRC_POSTGRES_USER}
+      POSTGRES_PASSWORD: ${SRC_POSTGRES_PASSWORD}
+    ports:
+      - "${SRC_POSTGRES_PORT}:5432"
+    volumes:
+      - source_data:/var/lib/postgresql/data
+      - ./data/src_data:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "pg_isready -h 127.0.0.1 -p 5432 -U ${SRC_POSTGRES_USER} -d ${SRC_POSTGRES_DB}",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 15s
+
+  dwh_db:
+    image: postgres:16
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      POSTGRES_DB: ${DWH_POSTGRES_DB}
+      POSTGRES_USER: ${DWH_POSTGRES_USER}
+      POSTGRES_PASSWORD: ${DWH_POSTGRES_PASSWORD}
+    ports:
+      - "${DWH_POSTGRES_PORT}:5432"
+    volumes:
+      - dwh_data:/var/lib/postgresql/data
+      - ./data/dwh_data:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "pg_isready -h 127.0.0.1 -p 5432 -U ${DWH_POSTGRES_USER} -d ${DWH_POSTGRES_DB}",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 15s
+
+  pgadmin:
+    image: dpage/pgadmin4:9.13
+    restart: unless-stopped
+    profiles: ["admin"]
+    env_file:
+      - .env
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+      PGADMIN_DISABLE_POSTFIX: "1"
+      PGADMIN_LISTEN_PORT: 5050
+    ports:
+      - "${PGADMIN_PORT}:5050"
+    depends_on:
+      source_db:
+        condition: service_healthy
+      dwh_db:
+        condition: service_healthy
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+
+volumes:
+  source_data:
+  dwh_data:
+  pgadmin_data:

@@ -1,0 +1,48 @@
+[project]
+name = "pactravel-dwh-exercise"
+version = "0.1.0"
+description = "PacTravel Data Warehouse Exercise using Python, Luigi, and dbt"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+  "luigi>=3.5.0",
+  "sqlalchemy>=2.0.0",
+  "psycopg2-binary>=2.9.9",
+  "pandas>=2.2.0",
+  "python-dotenv>=1.0.1",
+  "loguru>=0.7.2",
+  "dbt-core>=1.8.0",
+  "dbt-postgres>=1.8.0"
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.0.0",
+  "ruff>=0.9.0",
+  "black>=24.0.0"
+]
+
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.black]
+line-length = 88
+target-version = ["py311"]
+
+[tool.ruff]
+line-length = 88
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]

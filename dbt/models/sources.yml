@@ -1,0 +1,51 @@
+version: 2
+
+sources:
+  - name: pactravel_raw
+    description: "Raw tables loaded by Python/Luigi into DWH schema pactravel"
+    schema: pactravel
+    tables:
+      - name: customers
+        columns:
+          - name: customer_id
+            tests: [not_null, unique]
+
+      - name: airlines
+        columns:
+          - name: airline_id
+            tests: [not_null, unique]
+
+      - name: aircrafts
+        columns:
+          - name: aircraft_id
+            tests: [not_null, unique]
+
+      - name: airports
+        columns:
+          - name: airport_id
+            tests: [not_null, unique]
+
+      - name: hotel
+        columns:
+          - name: hotel_id
+            tests: [not_null, unique]
+
+      - name: flight_bookings
+        columns:
+          - name: trip_id
+            tests: [not_null]
+          - name: customer_id
+            tests: [not_null]
+          - name: flight_number
+            tests: [not_null]
+          - name: seat_number
+            tests: [not_null]
+
+      - name: hotel_bookings
+        columns:
+          - name: trip_id
+            tests: [not_null, unique]
+          - name: customer_id
+            tests: [not_null]
+          - name: hotel_id
+            tests: [not_null]

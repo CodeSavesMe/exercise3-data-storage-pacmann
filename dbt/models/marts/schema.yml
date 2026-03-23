@@ -1,0 +1,167 @@
+version: 2
+
+models:
+  - name: dim_customer
+    columns:
+      - name: customer_key
+        tests: [not_null, unique]
+      - name: customer_id
+        tests: [not_null]
+      - name: valid_from
+        tests: [not_null]
+
+  - name: dim_hotel
+    columns:
+      - name: hotel_key
+        tests: [not_null, unique]
+      - name: hotel_id
+        tests: [not_null]
+      - name: valid_from
+        tests: [not_null]
+
+  - name: dim_airline
+    columns:
+      - name: airline_key
+        tests: [not_null, unique]
+      - name: airline_id
+        tests: [not_null, unique]
+
+  - name: dim_aircraft
+    columns:
+      - name: aircraft_key
+        tests: [not_null, unique]
+      - name: aircraft_id
+        tests: [not_null, unique]
+
+  - name: dim_airport
+    columns:
+      - name: airport_key
+        tests: [not_null, unique]
+      - name: airport_id
+        tests: [not_null, unique]
+
+  - name: dim_date
+    columns:
+      - name: date_key
+        tests: [not_null, unique]
+      - name: full_date
+        tests: [not_null, unique]
+
+  - name: dim_service_type
+    columns:
+      - name: service_type_key
+        tests: [not_null, unique]
+      - name: service_type_name
+        tests:
+          - not_null
+          - unique
+          - accepted_values:
+              arguments:
+                values: ['flight', 'hotel']
+
+  - name: fct_flight_booking
+    columns:
+      - name: flight_booking_line_key
+        tests: [not_null, unique]
+      - name: trip_id
+        tests: [not_null]
+      - name: flight_number
+        tests: [not_null]
+      - name: seat_number
+        tests: [not_null]
+      - name: customer_key
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_customer')
+              field: customer_key
+      - name: airline_key
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_airline')
+              field: airline_key
+      - name: aircraft_key
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_aircraft')
+              field: aircraft_key
+      - name: airport_src_key
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_airport')
+              field: airport_key
+      - name: airport_dst_key
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_airport')
+              field: airport_key
+      - name: departure_date_key
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_date')
+              field: date_key
+      - name: booking_amount
+        tests: [not_null]
+      - name: booking_count
+        tests: [not_null]
+
+  - name: fct_hotel_booking
+    columns:
+      - name: hotel_booking_key
+        tests: [not_null, unique]
+      - name: trip_id
+        tests: [not_null]
+      - name: hotel_key
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_hotel')
+              field: hotel_key
+      - name: customer_key
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_customer')
+              field: customer_key
+      - name: check_in_date_key
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_date')
+              field: date_key
+      - name: check_out_date_key
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_date')
+              field: date_key
+      - name: booking_amount
+        tests: [not_null]
+      - name: booking_count
+        tests: [not_null]
+      - name: stay_nights
+        tests: [not_null]
+
+  - name: fct_daily_booking_summary
+    columns:
+      - name: date_key
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_date')
+              field: date_key
+      - name: service_type_key
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_service_type')
+              field: service_type_key
+      - name: total_bookings
+        tests: [not_null]
+      - name: total_booking_amount
+        tests: [not_null]

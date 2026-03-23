@@ -1,0 +1,76 @@
+# --- Python Core & Virtual Environments ---
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.python-version
+.venv/
+venv/
+env/
+ENV/
+
+# --- Build & Packaging ---
+build/
+dist/
+*.egg-info/
+.eggs/
+pip-wheel-metadata/
+
+# --- Testing & Code Coverage ---
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+coverage.xml
+htmlcov/
+
+# --- Environment Variables & Secrets ---
+.env
+.env.*
+!.env.example
+
+# --- Logs ---
+logs/
+*.log
+
+# --- dbt (Data Build Tool) ---
+dbt/target/
+dbt/logs/
+dbt/dbt_packages/
+dbt/profiles.yml
+
+# Optional dbt parsing artifacts
+# target/
+# manifest.json
+# run_results.json
+
+# --- Local State & Runtime Artifacts ---
+.state/
+*.pid
+*.out
+
+# --- OS & Editor Configurations ---
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# --- Jupyter Notebooks ---
+.ipynb_checkpoints/
+
+# --- Temporary Files ---
+tmp/
+temp/
+*.tmp
+*.swp
+*.swo
+*~
+
+# --- Explicitly Tracked Files & Specific Ignores ---
+!README.md
+!README.dbt.md
+!docker-compose.yaml
+!pyproject.toml
+uv.lock
+dbt/.user.yml
+docs/draft.md
